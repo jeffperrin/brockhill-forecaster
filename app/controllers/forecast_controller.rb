@@ -4,13 +4,13 @@ class ForecastController < ApplicationController
   include ActionView::Helpers::TextHelper
 
   def index
-    raise 'API key is required' if params[:api_key].blank?
-    raise 'Project id is required' if params[:project_id].blank?
-    raise 'Phase id is required' if params[:phase_id].blank?
-
     if params[:week_hours].blank?
       @items_by_week = {}
     else
+      raise 'API key is required' if params[:api_key].blank?
+      raise 'Project id is required' if params[:project_id].blank?
+      raise 'Phase id is required' if params[:phase_id].blank?
+      
       phase = Phase.new(params[:api_key], params[:project_id], params[:phase_id])
       forecaster = Forecast.new(phase, params)
       @items_by_week = forecaster.forecast(Date.today.next_week)
