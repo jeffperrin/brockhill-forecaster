@@ -38,3 +38,4 @@ When you're ready to push your pending features to AgileZen, run the rake task a
 rake agilezen:push[{api_key},{project_id}]
 </pre>
 
+Please note: RUNNING THIS TASK WILL DELETE ALL ITEMS CURRENTLY IN THE BACKLOG
