@@ -23,11 +23,9 @@ class Forecast
       else
         size = i.size
         if (size + current_week_hours) > worker_hours
-          puts "- Over: #{current_week}, moving to next week"
           current_week_hours = size
           current_week = current_week + sprint_size
           items_by_week[current_week] = [i]
-
         else
           current_week_hours += size
           items_by_week[current_week] << i

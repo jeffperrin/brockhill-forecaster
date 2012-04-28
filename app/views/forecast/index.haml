@@ -1,35 +1,36 @@
 %fieldset
   %legend Guys, are we done yet?
   = form_tag forecast_index_path, :method => 'get' do
-    %p
-      %label{:for => 'api_key'} API key:
-      = text_field_tag :api_key, params[:api_key] || ''
-    %p
-      %label{:for => 'project_id'} Project id:
-      = text_field_tag :project_id, params[:project_id] || ''
-    %p
-      %label{:for => 'phase_id'} Phase id:
-      = text_field_tag :phase_id, params[:phase_id] || ''
-    %p
-      %em Get phase ids for your project from https://agilezen.com/api/v1/projects/{project_id}/phases.xml?apikey={api_key}
-    %p
-      %label{:for => "week_hours"} Work hours/sprint:
-      = text_field_tag :week_hours, params[:week_hours] || '128', :size => '7'
-    %p
-      %label{:for => "bug_size"} Default bug size:
-      = text_field_tag :bug_size, params[:bug_size] || '4', :size => '7'
-      hours
-    %p
-      %label{:for => "story_size"} Default story size:
-      = text_field_tag :story_size, params[:story_size] || '16', :size => '7'
-      hours
-    %p
-      %label{:for => "sprint_size"} Sprint length:
-      = text_field_tag :sprint_size, params[:sprint_size] || '14', :size => '7'
-      days
-
-    %p.buttons
-      = button_tag "Project manage", :class => "brockhill btn-primary", :disable_with => "Managing Project..."
+    .span5
+      %p
+        %label{:for => 'api_key'} API key:
+        = text_field_tag :api_key, params[:api_key] || ''
+      %p
+        %label{:for => 'project_id'} Project id:
+        = text_field_tag :project_id, params[:project_id] || ''
+      %p
+        %label{:for => 'phase_id'} Phase id:
+        = text_field_tag :phase_id, params[:phase_id] || ''
+      %p
+        %em Get phase ids for your project from https://agilezen.com/api/v1/projects/{project_id}/phases.xml?apikey={api_key}
+    .span5
+      %p
+        %label{:for => "week_hours"} Work hours/sprint:
+        = text_field_tag :week_hours, params[:week_hours] || '128', :size => '7'
+      %p
+        %label{:for => "bug_size"} Default bug size:
+        = text_field_tag :bug_size, params[:bug_size] || '4', :size => '7'
+        hours
+      %p
+        %label{:for => "story_size"} Default story size:
+        = text_field_tag :story_size, params[:story_size] || '16', :size => '7'
+        hours
+      %p
+        %label{:for => "sprint_size"} Sprint length:
+        = text_field_tag :sprint_size, params[:sprint_size] || '14', :size => '7'
+        days
+    .form-actions.span12{style: 'text-align: center;'}
+      = button_tag "Project manage", :class => "btn btn-primary", :disable_with => "Managing Project..."
 - if @items_by_week.blank?
 - else
   %fieldset
@@ -38,16 +39,16 @@
     - @items_by_week.each do |week, items|
       %h2
         Starting #{week.to_s(:short)}
-      %table
+      %table.table.table-striped
         %thead
           %tr
-            %th #
-            %th Size
-            %th Type
+            %th.span1 #
+            %th.span1 Size
+            %th.span2 Type
             %th Description
-            %th Owner
-        - items.each do |i|
-          %tbody
+            %th.span2 Owner
+        %tbody
+          - items.each do |i|
             %tr
               %td= link_to i['id'], "https://agilezen.com/project/#{params[:project_id]}/story/#{i['id']}", :target => "_blank"
               %td= i.size
@@ -62,4 +63,5 @@
             %th.span5{:colspan => '2'}
               Size of stories in sprint:
               = items.sum{|i| i.size}
+              hours
       %br/

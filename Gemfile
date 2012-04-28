@@ -9,6 +9,7 @@ gem 'httparty'
 gem 'awesome_print' # use 'ap' instead of 'puts' for console debug.
 gem 'rest-client'
 gem 'haml-rails'
+gem 'bootstrap-sass'
 
 group :test do
   gem 'cucumber-rails'
