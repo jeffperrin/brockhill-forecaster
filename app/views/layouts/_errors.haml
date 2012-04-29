@@ -1,0 +1,7 @@
+-if target.blank? == false and target.errors.any?
+  .alert.alert-error
+    %i.close{'data-dismiss' => 'alert'}x
+    %h4.alert-heading= "#{pluralize(target.errors.count, "error")} need to be fixed before continuing:"
+    %ul
+      - target.errors.full_messages.each do |msg|
+        %li= msg

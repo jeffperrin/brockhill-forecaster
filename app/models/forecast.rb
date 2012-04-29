@@ -1,8 +1,8 @@
 class Forecast
   attr_reader :params
 
-  def initialize(phase, params)
-    @phase = phase
+  def initialize(stories, params)
+    @stories = stories
     @params = params
   end
 
@@ -14,7 +14,7 @@ class Forecast
     current_week = sprint_start
     current_week_hours = 0
 
-    items = @phase.stories(params)
+    items = @stories
     items.each do |i|
       week = items_by_week[current_week]
       if week.nil?
