@@ -1,0 +1,17 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Project
+      %th Description
+      %th
+  %tbody
+    - @projects.each do |p|
+      %tr
+        %td= p.name
+        %td= truncate p.description, length: 50
+        %td
+          = form_for p, url: project_forecast_index_path(p.id), method: :get do |f|
+            = f.hidden_field :id
+            = f.hidden_field :api_key
+            = button_tag "Estimate", class: 'btn btn-primary'
+  

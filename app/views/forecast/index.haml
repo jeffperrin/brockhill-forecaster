@@ -1,15 +1,10 @@
 %fieldset
   %legend Guys, are we done yet?
-  = form_for @project, url: forecast_index_path, method: :get do |f|
+  = form_for @project, url: project_forecast_index_path(params[:project_id]), method: :get do |f|
+    = f.hidden_field :api_key
+    = f.hidden_field :id
     .span12
       = render 'layouts/errors', target: @project
-    .span5
-      %p
-        = f.label :api_key
-        = f.text_field :api_key
-      %p
-        = f.label :project_id
-        = f.text_field :project_id
     .span5
       %p
         %label{:for => "week_hours"} Work hours/sprint:
@@ -18,6 +13,7 @@
         %label{:for => "bug_size"} Default bug size:
         = text_field_tag :bug_size, params[:bug_size] || '4', size: '7'
         hours
+    .span5
       %p
         %label{:for => "story_size"} Default story size:
         = text_field_tag :story_size, params[:story_size] || '16', size: '7'
@@ -26,6 +22,7 @@
         %label{:for => "sprint_size"} Sprint length:
         = text_field_tag :sprint_size, params[:sprint_size] || '14', size: '7'
         days
+      
     .form-actions.span12{style: 'text-align: center;'}
       = button_tag "Project manage", class: 'btn btn-primary', disable_with: "Managing Project..."
 - if @items_by_week.blank?

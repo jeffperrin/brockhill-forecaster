@@ -8,10 +8,10 @@ class Project
 
   base_uri "https://agilezen.com/api/v1"
 
-  attr_accessor :api_key, :project_id, :phase_id
+  attr_accessor :api_key, :id, :name, :description
 
   validates :api_key, :presence => true
-  validates :project_id, :presence => true
+  validates :id, :presence => true
 
   def initialize(attributes={})
     return if attributes.nil?
@@ -25,9 +25,15 @@ class Project
     false
   end
 
-  def stories(params={})
-    items = self.class.get("/projects/#{@project_id}/stories.json?apikey=#{@api_key}&where=phase:backlog")['items']
+  def self.all(api_key)
+    projects = get("https://agilezen.com/api/v1/projects?apikey=#{api_key}")['items']
+    projects.map do |item|
+      Project.new(api_key: api_key, id: item['id'], name: item['name'], description: item['description'])
+    end
+  end
 
+  def stories(params={})
+    items = self.class.get("/projects/#{id}/stories.json?apikey=#{api_key}&where=phase:backlog")['items']
     items.first.class.send :define_method, :story_type do
       return "Story" if self['color'] == 'yellow'
       return "Bug" if self['color'] == 'green'
@@ -50,7 +56,6 @@ class Project
   end
 
   def forecast(sprint_start, options={})
-    ap "forecasting"
     forecaster = Forecast.new(stories(options), options)
     forecaster.forecast(sprint_start)
   end
