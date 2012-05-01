@@ -41,8 +41,10 @@ class Zen
     @project_id = project_id
   end
 
-  def delete_all_stories_from_backlog()
-    self.class.delete("/projects/#{@project_id}/stories.json?apikey=#{@api_key}&where=phase:backlog")
+  def delete_all_stories_from_backlog
+    ap '- keeping stories currently in the backlog'
+    # uncomment this line if you want your backlog to be cleaned out before each push
+    # self.class.delete("/projects/#{@project_id}/stories.json?apikey=#{@api_key}&where=phase:backlog")
   end
 
   def add_story(story)
