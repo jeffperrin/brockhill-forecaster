@@ -18,23 +18,23 @@ All that is required is an AgileZen API key.
 Push stories to a backlog (with estimates)
 ------------------------------------------
 
-1. Break your requirements into individual features using cucumber
-2. Estimate every scenario (as cucumber features):
+* Break your requirements into individual features using cucumber
+* Estimate every scenario (as cucumber features):
 
-```cucumber
-Feature: Export data
-  A user with viewing privileges
-  Can provide selection criteria and export that data to excel
+  ```cucumber
+  Feature: Export data
+    A user with viewing privileges
+    Can provide selection criteria and export that data to excel
 
-  @8 #this is your estimate for the scenario in hours
-  Scenario: Export blended price calculations
+    @8 #this is your estimate for the scenario in hours
+    Scenario: Export blended price calculations
 
-  @4
-  Scenario: Export field price calculations
-```
+    @4
+    Scenario: Export field price calculations
+  ```
 
-3. Store your .feature files in the features_pending directory of your project
-4. Run the rake task to create stories in AgileZen. Each feature will be imported
+* Store your .feature files in the features_pending directory of your project
+* Run the rake task to create stories in AgileZen. Each feature will be imported
 as a single story. The 'size' attribute of the story will be the sum of your scenario estimates.
 
 <pre>
