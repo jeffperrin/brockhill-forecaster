@@ -8,14 +8,14 @@ class Project
 
   base_uri "https://agilezen.com/api/v1"
 
-  attr_accessor :api_key, :id, :name, :description
+  attr_accessor :api_key, :id, :name, :description, :forecast_options
 
   validates :api_key, :presence => true
   validates :id, :presence => true
 
   def initialize(attributes={})
     return if attributes.nil?
-
+    self.forecast_options = ForecastOptions.new
     attributes.each do |name, value|
       send("#{name}=", value)
     end
@@ -23,6 +23,10 @@ class Project
 
   def persisted?
     false
+  end
+
+  def forecast_options_attributes=(attributes)
+    self.forecast_options = ForecastOptions.new(attributes)
   end
 
   def self.all(api_key)
@@ -33,6 +37,7 @@ class Project
   end
 
   def stories(params={})
+    forecast_options = self.forecast_options
     items = self.class.get("/projects/#{id}/stories.json?apikey=#{api_key}&where=phase:backlog")['items']
     items.first.class.send :define_method, :story_type do
       return "Story" if self['color'] == 'yellow'
@@ -42,8 +47,8 @@ class Project
     end
 
     items.first.class.send :define_method, :size do
-      story_size = params[:story_size].blank? ? 16 : params[:story_size].to_i
-      bug_size =params[:bug_size].blank? ? 4 : params[:bug_size].to_i
+      story_size = forecast_options.story_size
+      bug_size = forecast_options.bug_size
 
       if self['size'].blank?
         self.story_type =~ /Story/ ? story_size : bug_size
@@ -55,8 +60,8 @@ class Project
     items
   end
 
-  def forecast(sprint_start, options={})
-    forecaster = Forecast.new(stories(options), options)
-    forecaster.forecast(sprint_start)
+  def forecast()
+    forecaster = Forecast.new(stories, forecast_options)
+    forecaster.forecast
   end
 end

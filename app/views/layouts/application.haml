@@ -13,4 +13,8 @@
           %li
             %a{href: 'https://github.com/jeffperrin/brockhill-forecaster'} View the code on GitHub
   .container
+    - flash.each do |name, msg|
+      .alert.alert-info{:class => "flash-#{name}"}
+        = msg
+      - flash.discard
     = yield

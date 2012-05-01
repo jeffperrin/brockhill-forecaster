@@ -5,23 +5,24 @@
     = f.hidden_field :id
     .span12
       = render 'layouts/errors', target: @project
-    .span5
-      %p
-        %label{:for => "week_hours"} Work hours/sprint:
-        = text_field_tag :week_hours, params[:week_hours] || '128', size: '7'
-      %p
-        %label{:for => "bug_size"} Default bug size:
-        = text_field_tag :bug_size, params[:bug_size] || '4', size: '7'
-        hours
-    .span5
-      %p
-        %label{:for => "story_size"} Default story size:
-        = text_field_tag :story_size, params[:story_size] || '16', size: '7'
-        hours
-      %p
-        %label{:for => "sprint_size"} Sprint length:
-        = text_field_tag :sprint_size, params[:sprint_size] || '14', size: '7'
-        days
+      = f.fields_for :forecast_options do |option_form|
+        .span5
+          %p
+            = option_form.label :sprint_hours
+            = option_form.text_field :sprint_hours
+          %p
+            = option_form.label :bug_size
+            = option_form.text_field :bug_size
+            hours
+        .span5
+          %p
+            = option_form.label :story_size
+            = option_form.text_field :story_size
+            hours
+          %p
+            = option_form.label :sprint_size
+            = option_form.text_field :sprint_size
+            days
       
     .form-actions.span12{style: 'text-align: center;'}
       = button_tag "Project manage", class: 'btn btn-primary', disable_with: "Managing Project..."

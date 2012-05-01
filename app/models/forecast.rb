@@ -1,17 +1,17 @@
 class Forecast
   attr_reader :params
 
-  def initialize(stories, params)
+  def initialize(stories, forecast_options)
     @stories = stories
-    @params = params
+    @forecast_options = forecast_options
   end
 
-  def forecast(sprint_start)
-    worker_hours = @params[:week_hours].blank? ? 128 : @params[:week_hours].to_i
-    sprint_size = @params[:sprint_size].blank? ? 14 : @params[:sprint_size].to_i
+  def forecast
+    worker_hours = @forecast_options.sprint_hours
+    sprint_size = @forecast_options.sprint_size
 
     items_by_week = ActiveSupport::OrderedHash.new
-    current_week = sprint_start
+    current_week = @forecast_options.sprint_start
     current_week_hours = 0
 
     items = @stories

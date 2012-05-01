@@ -5,9 +5,8 @@ class ForecastController < ApplicationController
 
   def index
     @project = Project.new(params[:project])
-
     if @project.valid?
-      @items_by_week = @project.forecast(Date.today.next_week, params)
+      @items_by_week = @project.forecast
       respond_to do |format|
         format.html
         format.csv do
