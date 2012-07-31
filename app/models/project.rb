@@ -38,7 +38,10 @@ class Project
 
   def stories(params={})
     forecast_options = self.forecast_options
-    items = self.class.get("/projects/#{id}/stories.json?apikey=#{api_key}&where=phase:backlog")['items']
+
+    backlog_id = self.class.get("/projects/#{id}/phases.json?apikey=#{api_key}")['items'][0]['id']
+    items = self.class.get("/projects/#{id}/phases/#{backlog_id}/stories.json?apikey=#{api_key}", {})['items']
+
     items.first.class.send :define_method, :story_type do
       return "Story" if self['color'] == 'yellow'
       return "Bug" if self['color'] == 'green'

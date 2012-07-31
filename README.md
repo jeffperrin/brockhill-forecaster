@@ -37,7 +37,7 @@ Push stories to a backlog (with estimates)
 * Run the rake task to create stories in AgileZen. Each feature will be imported
 as a single story. The 'size' attribute of the story will be the sum of your scenario estimates.
 
-<pre>
-rake agilezen:push[{api_key},{project_id}]
-</pre>
+  <pre>
+  rake agilezen:push[{api_key},{project_id}]
+  </pre>
 
